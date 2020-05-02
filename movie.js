@@ -4,7 +4,7 @@ var bcrypt = require('bcrypt-nodejs');
 
 mongoose.Promise = global.Promise;
 
-mongoose.connect(process.env.DB_USER, { useUnifiedTopology: true } );
+mongoose.connect(process.env.DB_USER, { useUnifiedTopology: true , useNewUrlParser: true } );
 mongoose.connection.once('open', function(){
     console.log('Movie conection has been made!');
 }).on('error', function(error){
