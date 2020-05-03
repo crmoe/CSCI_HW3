@@ -1,23 +1,18 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-var bcrypt = require('bcrypt-nodejs');
 
 mongoose.Promise = global.Promise;
 
-mongoose.connect(process.env.DB_USER, {useNewUrlParser: true } );
-mongoose.connection.once('open', function(){
-    console.log('Movie conection has been made!');
-}).on('error', function(error){
-    console.log('Error is: ', error);
-});
+mongoose.connect(process.env.DB_USER, { useNewUrlParser: true } );
 mongoose.set('useCreateIndex', true);
 
 var MovieSchema = new Schema({
-    title: String,
-    year: String,
-    genre: String,
-    actors: [{actorName: String, characterName: String}]
+    title: { type: String, required: true, index: { unique: true }},
+    yearReleased: { type: Date, required: true },
+    genre: { type: String, required: true, enum: ['Action', 'Adventure','Anime', 'Cartoon', 'Comedy', 'Drama', 'Horror', 'Mystery', ] },
+    actors: { type: [{actorName: String, characterName: String}], required: true },
+    imageURL: { type: String, required: true, index: { unique: false}}
+
 });
 
-// return the model
 module.exports = mongoose.model('Movie', MovieSchema);
